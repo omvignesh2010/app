@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: flask-login-api
+    env: python
+    buildCommand: ""
+    startCommand: "python login.py"
+    startCommand: "python signup.py"
