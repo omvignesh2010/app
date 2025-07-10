@@ -3,15 +3,11 @@ from flask_cors import CORS
 from pymongo import MongoClient
 import bcrypt
 import re
-
 app = Flask(__name__)
 CORS(app)
-
 client = MongoClient("mongodb+srv://project:project@project.yxrqd7p.mongodb.net/?retryWrites=true&w=majority&appName=Project")
 db = client["project_db"]
 collection = db["sign_up"]
-
-# Password strength check
 def is_strong_password(password):
     return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
 
@@ -31,7 +27,6 @@ def signup():
     if collection.find_one({"email": email}):
         return jsonify({"message": "User already exists"}), 409
 
-    # Hash password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     collection.insert_one({
