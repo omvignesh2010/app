@@ -13,8 +13,8 @@ db = client["project_db"]
 collection = db["sign_up"]
 
 # Helper: Check password strength
-def is_strong_password(password):
-    return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
+#def is_strong_password(password):
+ #   return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -54,8 +54,8 @@ def signup():
         if not name or not email or not password:
             return jsonify({"message": "Missing fields"}), 400
 
-        if not is_strong_password(password):
-            return jsonify({"message": "Weak password"}), 400
+        #if not is_strong_password(password):
+           # return jsonify({"message": "Weak password"}), 400
 
         if collection.find_one({"email": email}):
             return jsonify({"message": "User already exists"}), 409
