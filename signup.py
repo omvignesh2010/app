@@ -11,7 +11,7 @@ collection = db["sign_up"]
 def is_strong_password(password):
     return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
 
-@app.route('/signup', methods=['POST'])
+@app.route('/app/signup', methods=['POST'])
 def signup():
     data = request.get_json()
     name = data.get('fullName')
