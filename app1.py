@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import certifi
 from pymongo import MongoClient
 import bcrypt
 import traceback
@@ -7,7 +8,7 @@ import traceback
 app = Flask(__name__)
 CORS(app)
 
-client = MongoClient("mongodb+srv://project:project@project.yxrqd7p.mongodb.net/?retryWrites=true&w=majority&appName=Project")
+client = client = MongoClient("mongodb+srv://project:project@project.yxrqd7p.mongodb.net/?retryWrites=true&w=majority&appName=Project", tlsCAFile=certifi.where())
 db = client["project_db"]
 collection = db["sign_up"]
 
