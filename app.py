@@ -8,8 +8,6 @@ CORS(app)
 client = MongoClient("mongodb+srv://project:project@project.yxrqd7p.mongodb.net/?retryWrites=true&w=majority&appName=Project")
 db = client["project_db"]
 collection = db["sign_up"]
-def is_strong_password(password):
-    return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -32,8 +30,6 @@ def signup():
     password = data.get('password')
     if not name or not email or not password:
         return jsonify({"message": "Missing fields"}), 400
-    #if not is_strong_password(password):
-       # return jsonify({"message": "Weak password"}), 400
     if collection.find_one({"email": email}):
         return jsonify({"message": "User already exists"}), 409
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
