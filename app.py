@@ -6,6 +6,12 @@ import re
 
 app = Flask(__name__)
 CORS(app)
+def is_strong_password(password):
+    return bool(re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", password))
+    data = request.get_json()
+    name = data.get('fullName')
+    email = data.get('email')
+    password = data.get('password')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -14,12 +20,11 @@ def login():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    def signup():
-    data = request.get_json()
-    name = data.get('fullName')
-    email = data.get('email')
-    password = data.get('password')
-
+    app = Flask(__name__)
+CORS(app)
+client = MongoClient("mongodb+srv://project:project@project.yxrqd7p.mongodb.net/?retryWrites=true&w=majority&appName=Project")
+db = client["project_db"]
+collection = db["sign_up"]
     if not name or not email or not password:
         return jsonify({"message": "Missing fields"}), 400
 
