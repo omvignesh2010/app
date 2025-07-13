@@ -33,7 +33,7 @@ def login():
             return jsonify({"message": "Password not found in DB"}), 500
 
         if bcrypt.checkpw(password.encode('utf-8'), db_password.encode('utf-8')):
-            return jsonify({"message": "Login success", "user": user["name"]}), 200
+            return jsonify({"message": "Login successful","user": {"fullName": user.get("name"),"email": user.get("email") }}), 200
         else:
             return jsonify({"message": "Invalid credentials"}), 401
 
