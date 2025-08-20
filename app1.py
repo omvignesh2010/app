@@ -17,7 +17,7 @@ try:
     otp_collection.create_index("expiresAt", expireAfterSeconds=0)
 except Exception as _e:
     print("TTL index creation warning:", _e)
-BREVO_API_KEY = "xsmtpsib-abac3d28bc2b70aedbeda5d5c9b8ada310f479530850ee8ccb2bc04203a69e43-7rO2xQY9d5K8NPSV"
+BREVO_API_KEY = "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"
 SENDER_EMAIL = "oomvignesh@gmail.com"
 SENDER_NAME  = "VITA GO"
 BREVO_URL = "https://api.brevo.com/v3/smtp/email"
