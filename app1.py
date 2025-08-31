@@ -17,9 +17,9 @@ try:
     otp_collection.create_index("expiresAt", expireAfterSeconds=0)
 except Exception as _e:
     print("TTL index creation warning:", _e)
-BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-SENDER_EMAIL = os.getenv("SENDER_EMAIL", "oomvignesh@gmail.com")
-SENDER_NAME  = os.getenv("SENDER_NAME", "VITA GO")
+BREVO_API_KEY = "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"
+SENDER_EMAIL = "oomvignesh@gmail.com"
+SENDER_NAME  = "VITA GO"
 BREVO_URL = "https://api.brevo.com/v3/smtp/email"
 
 def send_email_via_brevo(to_email: str, subject: str, html_content: str):
@@ -139,10 +139,58 @@ def forgot_password():
         subject = "Your VITA GO Password Reset OTP"
         name = user.get('name') or 'User'
         html = f"""
-        <p>Hello {name},</p>
-        <p>Your OTP for password reset is: <strong>{otp}</strong></p>
-        <p>This OTP is valid for <strong>5 minutes</strong>.</p>
-        <p>— {SENDER_NAME}</p>
+        <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Password Reset OTP</title>
+</head>
+<body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f4f6f8;">
+  <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f6f8; padding:20px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); padding:30px;">
+          
+          <!-- Header -->
+          <tr>
+            <td align="center" style="padding-bottom:20px;">
+              <h2 style="margin:0; color:#2a9d8f;">🔐 Password Reset</h2>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td style="font-size:16px; color:#333333; padding-bottom:10px;">
+              <p>Hello <strong>{name}</strong>,</p>
+            </td>
+          </tr>
+
+          <!-- OTP Section -->
+          <tr>
+            <td style="font-size:16px; color:#333333; padding-bottom:20px;">
+              <p>Your OTP for password reset is:</p>
+              <p style="font-size:22px; font-weight:bold; color:#e63946; letter-spacing:2px; text-align:center; margin:20px 0;">
+                {otp}
+              </p>
+              <p>This OTP is valid for <strong>5 minutes</strong>.</p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="font-size:14px; color:#555555; padding-top:20px; border-top:1px solid #eeeeee; text-align:center;">
+              <p>— {SENDER_NAME}</p>
+              <p style="font-size:12px; color:#999999;">If you didn’t request this, please ignore this email.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+
         """
         try:
             send_email_via_brevo(email, subject, html)
@@ -192,8 +240,47 @@ def reset_password():
         try:
             send_email_via_brevo(
                 email,
-                "Your VITA GO password was changed",
-                f"<p>Hello,</p><p>Your password has been successfully updated.</p><p>— {SENDER_NAME}</p>"
+f""" <table width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f6f8; padding:20px 0;">
+  <tr>
+    <td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:30px;">
+        
+        <!-- Header -->
+        <tr>
+          <td align="center" style="padding-bottom:20px;">
+            <h2 style="margin:0; color:#264653;">✅ Password Updated</h2>
+          </td>
+        </tr>
+
+        <!-- Message -->
+        <tr>
+          <td style="font-size:16px; color:#333333; line-height:1.6; padding-bottom:20px;">
+            <p>Hello,</p>
+            <p>Your <strong>VITA GO</strong> account password has been successfully updated.</p>
+            <p>If this wasn’t you, please reset your password immediately or contact support.</p>
+          </td>
+        </tr>
+
+        <!-- Security Note -->
+        <tr>
+          <td style="padding:20px; background:#f8f9fa; border:1px solid #e0e0e0; border-radius:8px; font-size:14px; color:#555555;">
+            <p style="margin:0;">🔒 For your security, we recommend not sharing your password with anyone.</p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="font-size:14px; color:#555555; padding-top:20px; border-top:1px solid #eeeeee; text-align:center;">
+            <p>— {SENDER_NAME}</p>
+            <p style="font-size:12px; color:#999999;">This is an automated message. Please do not reply.</p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+ """
             )
         except Exception as _e:
             print("Confirmation email error (non-fatal):", _e)
@@ -207,4 +294,4 @@ def reset_password():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
